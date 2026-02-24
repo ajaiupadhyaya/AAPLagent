@@ -4,6 +4,8 @@ import numpy as np
 import pandas as pd
 import ta
 
+from .feature_store import build_feature_matrix
+
 
 def load_price_csv(path: str) -> pd.DataFrame:
     df = pd.read_csv(path, parse_dates=["Date"])
@@ -48,3 +50,24 @@ def add_calendar_features(df: pd.DataFrame) -> pd.DataFrame:
     data["day_of_week"] = data["Date"].dt.dayofweek
     data["month"] = data["Date"].dt.month
     return data
+
+
+def build_institutional_features(
+    df: pd.DataFrame,
+    feature_names: list[str],
+    market_data: dict[str, pd.DataFrame] | None = None,
+    cache_dir: str = "data/feature_cache",
+    namespace: str = "aapl",
+    force_recompute: bool = False,
+) -> pd.DataFrame:
+    """Build registry-driven features and append them to the provided frame."""
+
+    feature_frame = build_feature_matrix(
+        df=df,
+        feature_names=feature_names,
+        cache_dir=cache_dir,
+        namespace=namespace,
+        market_data=market_data,
+        force_recompute=force_recompute,
+    )
+    return pd.concat([df.copy(), feature_frame], axis=1)
