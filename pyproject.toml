@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aapl-agent"
+version = "0.1.0"
+description = "AAPL-focused quantitative trading agent research stack"
+requires-python = ">=3.11"
+dependencies = [
+  "numpy>=1.26",
+  "pandas>=2.2",
+  "scipy>=1.12",
+  "scikit-learn>=1.5",
+  "xgboost>=2.1",
+  "lightgbm>=4.5",
+  "optuna>=3.6",
+  "yfinance>=0.2.54",
+  "ta>=0.11",
+  "statsmodels>=0.14",
+  "arch>=7.0",
+  "pandas-datareader>=0.10",
+  "requests>=2.32",
+  "python-dotenv>=1.0",
+  "pydantic>=2.8",
+  "pyyaml>=6.0",
+  "matplotlib>=3.9",
+  "seaborn>=0.13",
+  "plotly>=5.24",
+  "joblib>=1.4",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3",
+  "ruff>=0.6",
+  "mypy>=1.11",
+  "jupyterlab>=4.3",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

@@ -1,0 +1,53 @@
+market:
+  primary_symbol: "AAPL"
+  context_symbols: ["SPY", "QQQ", "MSFT", "NVDA", "^VIX", "^TNX"]
+  interval: "1d"
+  lookback_years: 12
+
+features:
+  technical:
+    - "returns_1d"
+    - "returns_5d"
+    - "returns_21d"
+    - "rsi_14"
+    - "macd"
+    - "bb_width"
+    - "atr_14"
+    - "volatility_21d"
+    - "volume_zscore_21d"
+  cross_asset:
+    - "aapl_vs_spy_5d"
+    - "aapl_vs_qqq_5d"
+    - "vix_level"
+    - "tnx_level"
+  event_and_calendar:
+    - "day_of_week"
+    - "month"
+    - "days_to_earnings"
+    - "post_earnings_window"
+
+label:
+  horizon_days: 5
+  mode: "classification"
+  positive_threshold: 0.02
+
+model:
+  family: "xgboost"
+  objective: "binary:logistic"
+  max_depth: 4
+  n_estimators: 300
+  learning_rate: 0.03
+  subsample: 0.8
+  colsample_bytree: 0.8
+
+portfolio:
+  max_gross_exposure: 1.0
+  max_position_size: 0.15
+  min_confidence_to_trade: 0.55
+  stop_loss_atr_multiple: 2.0
+  take_profit_atr_multiple: 3.5
+  max_daily_turnover: 0.30
+
+costs:
+  commission_bps: 0.5
+  slippage_bps: 1.0

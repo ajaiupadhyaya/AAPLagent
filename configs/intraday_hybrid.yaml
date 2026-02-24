@@ -1,0 +1,67 @@
+strategy:
+  name: "aapl_hybrid_intraday"
+  mode: "hybrid_regime"
+  direction: "long_short"
+
+market:
+  primary_symbol: "AAPL"
+  context_symbols: ["SPY", "QQQ", "MSFT", "NVDA", "^VIX", "^TNX"]
+  intraday_interval: "5m"
+  intraday_lookback_period: "60d"
+  daily_lookback_period: "12y"
+
+regimes:
+  volatility_gate_vix_high: 25
+  trend_filter_ma_period: 50
+  low_vol_horizon_bars: 12
+  high_vol_horizon_bars: 4
+
+execution:
+  signal_clock: "intraday"
+  order_timing: "next_bar"
+  allowed_opening_minutes: 45
+  disallow_last_minutes: 20
+
+features:
+  technical:
+    - "returns_1bar"
+    - "returns_6bar"
+    - "returns_24bar"
+    - "rsi_14"
+    - "macd"
+    - "bb_width"
+    - "atr_14"
+    - "volatility_24bar"
+    - "volume_zscore_24bar"
+  cross_asset:
+    - "aapl_vs_spy_6bar"
+    - "aapl_vs_qqq_6bar"
+    - "vix_level"
+    - "tnx_level"
+  session:
+    - "minute_of_day"
+    - "session_progress"
+
+model:
+  family: "xgboost"
+  objective: "binary:logistic"
+  max_depth: 5
+  n_estimators: 450
+  learning_rate: 0.03
+  subsample: 0.85
+  colsample_bytree: 0.85
+
+risk:
+  profile: "balanced"
+  max_gross_exposure: 1.5
+  max_net_exposure: 1.0
+  max_position_size: 0.20
+  daily_loss_limit_pct: 1.5
+  stop_loss_atr_multiple: 1.8
+  take_profit_atr_multiple: 3.0
+  min_confidence_to_trade: 0.58
+  max_daily_turnover: 0.70
+
+costs:
+  commission_bps: 0.5
+  slippage_bps: 1.5
