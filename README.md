@@ -24,6 +24,9 @@ python scripts/train_intraday_enhanced.py
 python scripts/generate_improvement_report.py
 python scripts/train_intraday_round2.py
 python scripts/generate_round2_report.py
+python scripts/train_intraday_round3.py
+python scripts/generate_round3_report.py
+python scripts/generate_iteration_audit.py
 ```
 
 This repository now includes a user-aligned profile for:
